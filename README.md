@@ -1,7 +1,7 @@
 docker-openrefine
 =================
 
-A Dockerfile setting up OpenRefine 2.5 with v0.8.0 of the DERI [RDF extension][1]. This is a stable configuration that works; later versions of OpenRefine do are not supported by the RDF extension.
+A Dockerfile setting up OpenRefine 2.6 RC2 with v0.9.0 Alpha of the DERI [RDF extension][1]. This is an experimental configuration that works; after these releases in 2014 work on the RDF plugin ceased.
 
 Usage
 -----
