@@ -2,6 +2,8 @@ FROM ubuntu:trusty
 
 MAINTAINER jon.tutcher@bbc.co.uk
 
+ENV http_proxy=http://www-cache.rd.bbc.co.uk:8080 https_proxy=http://www-cache.rd.bbc.co.uk:8080 HTTP_PROXY=http://www-cache.rd.bbc.co.uk:8080 HTTPS_PROXY=http://www-cache.rd.bbc.co.uk:8080
+
 RUN groupadd -r mysql && useradd -r -g mysql mysql
 RUN echo debconf shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
 RUN echo debconf shared/accepted-oracle-license-v1-1 seen true | /usr/bin/debconf-set-selections
