@@ -10,4 +10,4 @@ if [ -z "$REFINE_MEMORY" ] ; then
     fi
 fi
 
-exec OpenRefine/refine -i 0.0.0.0 -d /mnt/refine -m $REFINE_MEMORY
+exec env no_proxy="0.0.0.0" OpenRefine/refine -p 3333 -i 0.0.0.0 -d /mnt/refine -m $REFINE_MEMORY
