@@ -2,7 +2,7 @@ FROM ubuntu:trusty
 
 MAINTAINER jon.tutcher@bbc.co.uk
 
-% set machine proxy variables for inside BBC R&D network
+# set machine proxy variables for inside BBC R&D network
 ENV http_proxy=http://www-cache.rd.bbc.co.uk:8080 https_proxy=http://www-cache.rd.bbc.co.uk:8080 HTTP_PROXY=http://www-cache.rd.bbc.co.uk:8080 HTTPS_PROXY=http://www-cache.rd.bbc.co.uk:8080
 
 RUN groupadd -r mysql && useradd -r -g mysql mysql
@@ -53,18 +53,18 @@ RUN apt-get install -y -q \
     libpcre3-dev \
     python-dev
 
-% Add and untar Google Refine version 2.5
+# Add and untar Google Refine version 2.5
 ADD https://github.com/OpenRefine/OpenRefine/releases/download/2.5/google-refine-2.5-r2407.tar.gz ./
 RUN tar -xvf google-refine-2.5-r2407.tar.gz
 RUN mv google-refine-2.5/ OpenRefine
 
-% Add and unzip DERI RDF Extension v0.8.0
+# Add and unzip DERI RDF Extension v0.8.0
 RUN apt-get install unzip
 ADD https://github.com/downloads/fadmaa/grefine-rdf-extension/grefine-rdf-extension-0.8.0.zip /OpenRefine/webapp/extensions/
 RUN cd /OpenRefine/webapp/extensions ; \
     unzip grefine-rdf-extension-0.8.0.zip
 
-% start OpenRefine
+# start OpenRefine
 ADD ./start.sh /start.sh
 
 RUN chmod +x /start.sh
