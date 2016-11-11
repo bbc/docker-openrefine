@@ -2,6 +2,7 @@ FROM ubuntu:trusty
 
 MAINTAINER jon.tutcher@bbc.co.uk
 
+% set machine proxy variables for inside BBC R&D network
 ENV http_proxy=http://www-cache.rd.bbc.co.uk:8080 https_proxy=http://www-cache.rd.bbc.co.uk:8080 HTTP_PROXY=http://www-cache.rd.bbc.co.uk:8080 HTTPS_PROXY=http://www-cache.rd.bbc.co.uk:8080
 
 RUN groupadd -r mysql && useradd -r -g mysql mysql
@@ -52,19 +53,20 @@ RUN apt-get install -y -q \
     libpcre3-dev \
     python-dev
 
-# download and "mount" OpenRefine
-RUN wget -O - --no-check-certificate https://github.com/OpenRefine/OpenRefine/archive/master.tar.gz | tar -xz
-RUN mv OpenRefine-master OpenRefine; cd ./OpenRefine ; ant clean build;
+% Add and untar Google Refine version 2.5
+ADD https://github.com/OpenRefine/OpenRefine/releases/download/2.5/google-refine-2.5-r2407.tar.gz ./
+RUN tar -xvf google-refine-2.5-r2407.tar.gz
+RUN mv google-refine-2.5/ OpenRefine
 
-RUN apt-get install unzip;
+% Add and unzip DERI RDF Extension v0.8.0
+RUN apt-get install unzip
+ADD https://github.com/downloads/fadmaa/grefine-rdf-extension/grefine-rdf-extension-0.8.0.zip /OpenRefine/webapp/extensions/
+RUN cd /OpenRefine/webapp/extensions ; \
+    unzip grefine-rdf-extension-0.8.0.zip
 
-#download extensions
-#RUN cd ./OpenRefine/extensions; \
-#    wget -O rdf-extension.tar.gz https://github.com/SpazioDati/grefine-rdf-extension/tarball/export-stream; \
-#    tar -xzf rdf-extension.tar.gz && rm rdf-extension.tar.gz; \
-#    JAVA_TOOL_OPTIONS='-Dfile.encoding=UTF-8' ant build
-
+% start OpenRefine
 ADD ./start.sh /start.sh
+
 RUN chmod +x /start.sh
 
 EXPOSE 3333
